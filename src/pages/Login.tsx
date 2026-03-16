@@ -1,8 +1,11 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
 export default function Login() {
   return (
     <div className="flex min-h-screen w-full bg-white">
       
-       {/* Left Branding Section */}
+      {/* Left Branding Section */}
       <div className="hidden lg:block lg:w-1/2 bg-[#E5E5E5]"></div>
 
       {/* Right Login Section */}
@@ -11,25 +14,31 @@ export default function Login() {
           
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Email</label>
-              <input
-                type="email"
-                className="h-10 w-full rounded-md bg-[#F3F4F6] px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all"
+              <label htmlFor="email" className="text-sm font-semibold text-gray-700">
+                Email
+              </label>
+              <Input 
+                id="email"
+                type="email" 
+                className="h-10 bg-[#F3F4F6] border-none focus-visible:ring-1 focus-visible:ring-gray-400 shadow-none" 
               />
             </div>
             
             <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Password</label>
-              <input
-                type="password"
-                className="h-10 w-full rounded-md bg-[#F3F4F6] px-3 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 transition-all"
+              <label htmlFor="password" className="text-sm font-semibold text-gray-700">
+                Password
+              </label>
+              <Input 
+                id="password"
+                type="password" 
+                className="h-10 bg-[#F3F4F6] border-none focus-visible:ring-1 focus-visible:ring-gray-400 shadow-none" 
               />
             </div>
           </div>
 
-          <button className="h-10 w-full rounded-md bg-[#E5E5E5] text-sm font-bold text-gray-800 hover:bg-[#D4D4D4] transition-colors">
+          <Button className="h-10 w-full bg-[#E5E5E5] text-gray-800 hover:bg-[#D4D4D4] font-bold shadow-none">
             Submit
-          </button>
+          </Button>
           
         </div>
       </div>
