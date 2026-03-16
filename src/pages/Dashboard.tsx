@@ -1,3 +1,4 @@
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -41,9 +42,9 @@ export default function Dashboard() {
               
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="email" className="text-[10px] font-medium text-black">
+                  <Label htmlFor="email" className="text-[10px] font-medium text-black">
                     Email
-                  </label>
+                    </Label>
                   <Input 
                     id="email" 
                     type="email" 
@@ -52,9 +53,9 @@ export default function Dashboard() {
                 </div>
                 
                 <div className="flex flex-col gap-1.5">
-                  <label htmlFor="password" className="text-[10px] font-medium text-black">
+                  <Label htmlFor="email" className="text-[10px] font-medium text-black">
                     Password
-                  </label>
+                    </Label>
                   <Input 
                     id="password" 
                     type="password" 
