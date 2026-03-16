@@ -29,10 +29,8 @@ const sidebarItems = [
   { name: "Usage", icon: PieChart },
 ];
 
-
-
 const SidebarContent = () => (
-  <div className="flex h-full flex-col bg-[#F9F9F9] text-sm">
+  <div className="flex h-[100dvh] md:h-full flex-col bg-[#F9F9F9] text-sm">
     {/* Header */}
     <div className="h-14 flex items-center px-4 shrink-0">
       <div className="flex items-center gap-2 text-black cursor-pointer">
@@ -94,9 +92,9 @@ const SidebarContent = () => (
 
 export default function SidebarDashboard() {
   return (
-    <div className="flex h-screen w-full flex-col md:flex-row bg-[#FAFAFA]">
+    <div className="flex h-[100dvh] w-full flex-col md:flex-row bg-[#FAFAFA] overflow-hidden">
       
-      {/* Mobile*/}
+      {/* Mobile */}
       <div className="flex md:hidden h-14 items-center justify-between border-b border-gray-200 bg-[#F9F9F9] px-4 shrink-0">
         <div className="flex items-center gap-2 text-black">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,12 +104,10 @@ export default function SidebarDashboard() {
         </div>
         
         <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <Menu className="h-5 w-5" />
-            </Button>
+          <SheetTrigger className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-200 transition-colors">
+            <Menu className="h-5 w-5 text-gray-800" />
           </SheetTrigger>
-          <SheetContent side="left" className="w-[240px] p-0 border-none">
+          <SheetContent side="left" className="w-[240px] p-0 border-none [&>button]:hidden">
             <SidebarContent />
           </SheetContent>
         </Sheet>
@@ -122,6 +118,7 @@ export default function SidebarDashboard() {
         <SidebarContent />
       </aside>
 
+      {/* Content */}
       <main className="flex-1 bg-white h-full"></main>
     </div>
   );
