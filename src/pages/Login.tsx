@@ -6,13 +6,14 @@ export default function Login() {
   return (
     <div className="flex min-h-screen w-full bg-white">
       
+      {/* Left */}
       <div className="hidden lg:block lg:w-1/2 bg-[#E5E5E5]"></div>
 
-      <div className="flex w-full lg:w-1/2 items-center justify-center px-8">
+      {/* Right Login */}
+      <div className="flex w-full lg:w-1/2 items-center justify-center px-4 sm:px-8">
         <div className="w-full max-sm:max-w-xs max-w-sm flex flex-col gap-6">
           
           <div className="flex flex-col gap-4">
-            
             <div className="flex flex-col gap-2">
               <Label 
                 htmlFor="email" 

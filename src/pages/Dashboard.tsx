@@ -1,63 +1,67 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Menu } from "lucide-react";
 
 export default function Dashboard() {
   return (
     <div className="flex min-h-screen w-full flex-col bg-white font-sans">
       
-      {/*  Header  */}
+      {/* Header */}
       <header className="flex h-14 w-full border-b border-gray-200">
         
-        <div className="flex w-[240px] shrink-0 items-center gap-3 border-r border-gray-200 px-6">
+        <div className="flex items-center px-4 md:hidden border-r border-gray-200">
+          <Menu className="h-5 w-5 text-gray-600" />
+        </div>
+
+        <div className="hidden md:flex w-[240px] shrink-0 items-center gap-3 border-r border-gray-200 px-6">
           <div className="h-6 w-6 rounded bg-[#B3B3B3]"></div>
           <span className="text-sm font-medium text-black">HRMS</span>
         </div>
 
-        <div className="flex flex-1 items-center justify-between px-6">
+        <div className="flex flex-1 items-center justify-between px-4 md:px-6">
           <span className="text-sm font-medium text-black">Dashboard</span>
           <div className="h-6 w-6 rounded bg-[#B3B3B3]"></div>
         </div>
         
       </header>
 
-
       <div className="flex flex-1">
         
-        {/*  Sidebar */}
-        <aside className="w-[240px] shrink-0 border-r border-gray-200 p-6">
+        {/* Sidebar*/}
+        <aside className="hidden md:block w-[240px] shrink-0 border-r border-gray-200 p-6">
           <span className="text-xs font-medium text-black">Dashboard</span>
         </aside>
 
-
-        <main className="flex flex-1 items-center justify-center">
+        {/* Main*/}
+        <main className="flex flex-1 items-center justify-center p-6 md:p-0">
           
-          <div className="flex w-full max-w-4xl items-start justify-center gap-80">
+          {/*mobile */}
+          <div className="flex w-full max-w-4xl flex-col items-center md:flex-row md:items-start justify-center gap-10 lg:gap-40">
             
-
             <div className="mt-0.5 h-10 w-10 bg-[#D9D9D9]"></div>
 
-            {/* Form Area */}
-            <div className="flex w-[320px] flex-col gap-6">
+            {/* Form */}
+            <div className="flex w-full max-w-[320px] flex-col gap-6">
               
               <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="email" className="text-[10px] font-medium text-black">
+                  <Label htmlFor="dash-email" className="text-[10px] font-medium text-black">
                     Email
-                    </Label>
+                  </Label>
                   <Input 
-                    id="email" 
+                    id="dash-email" 
                     type="email" 
                     className="h-9 rounded bg-[#F2F2F2] border-none shadow-none focus-visible:ring-1 focus-visible:ring-gray-300" 
                   />
                 </div>
                 
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="email" className="text-[10px] font-medium text-black">
+                  <Label htmlFor="dash-password" className="text-[10px] font-medium text-black">
                     Password
-                    </Label>
+                  </Label>
                   <Input 
-                    id="password" 
+                    id="dash-password" 
                     type="password" 
                     className="h-9 rounded bg-[#F2F2F2] border-none shadow-none focus-visible:ring-1 focus-visible:ring-gray-300" 
                   />
