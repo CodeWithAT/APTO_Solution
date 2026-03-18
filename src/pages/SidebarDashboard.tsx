@@ -14,12 +14,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
+import DeploymentsTable from "@/components/DeploymentsTable";
 
 import Logo from "@/assets/logo.svg?react";
 
 const sidebarItems = [
-  { name: "Projects", icon: LayoutGrid, isActive: true },
-  { name: "Deployments", icon: Rocket },
+  { name: "Projects", icon: LayoutGrid },
+  { name: "Deployments", icon: Rocket, isActive: true },
   { name: "Logs", icon: FileText },
   { name: "Analytics", icon: BarChart2 },
   { name: "Speed Insights", icon: Activity },
@@ -85,14 +86,14 @@ const SidebarContent = () => {
   }, []);
 
   return (
-    <div className="flex h-[100dvh] md:h-full flex-col bg-[#F9F9F9] text-sm overflow-hidden">
+    <div className="flex h-[100dvh] md:h-full flex-col bg-[#F9F9F9] text-sm overflow-hidden border-r border-gray-200">
       
       {/* Header */}
       <div className="h-14 flex items-center px-4 shrink-0">
         <div className="flex items-center gap-2 text-black cursor-pointer">
-          
           <Logo className="h-5 w-5" />
-          <span className="font-semibold text-[14px]">APTO Solutions</span>
+         
+          <span className="font-semibold text-[14px]">APTO Solution</span>
         </div>
       </div>
 
@@ -214,12 +215,12 @@ export default function SidebarDashboard() {
   return (
     <div className="flex h-[100dvh] w-full flex-col md:flex-row bg-[#FAFAFA] overflow-hidden">
       
-      {/* Mobile */}
+      {/* Mobile Header */}
       <div className="flex md:hidden h-14 items-center justify-between border-b border-gray-200 bg-[#F9F9F9] px-4 shrink-0">
         <div className="flex items-center gap-2 text-black">
-          
           <Logo className="h-5 w-5" />
-          <span className="font-semibold text-[14px]">APTO Solutions</span>
+       
+          <span className="font-semibold text-[14px]">Lorem Ipsum</span>
         </div>
         
         <Sheet>
@@ -232,12 +233,17 @@ export default function SidebarDashboard() {
         </Sheet>
       </div>
 
-      {/* Desktop */}
+      {/* Desktop Sidebar */}
       <aside className="hidden md:flex w-[240px] flex-col bg-[#F9F9F9] border-r border-gray-200 text-sm h-full shrink-0">
         <SidebarContent />
       </aside>
 
-      <main className="flex-1 bg-white h-full"></main>
+      <main className="flex-1 bg-white h-full overflow-y-auto p-6 md:p-8 lg:p-12">
+        <div className="max-w-6xl mx-auto">
+          <DeploymentsTable />
+        </div>
+      </main>
+      
     </div>
   );
 }
