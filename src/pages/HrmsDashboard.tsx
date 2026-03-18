@@ -3,10 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Menu } from "lucide-react";
 
-
 import Logo from "@/assets/logo.svg?react";
 
-export default function Dashboard() {
+export default function HrmsDashboard() { 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white font-sans">
       
@@ -18,7 +17,6 @@ export default function Dashboard() {
         </div>
 
         <div className="hidden md:flex w-[240px] shrink-0 items-center gap-3 border-r border-gray-200 px-6">
-        
           <Logo className="h-6 w-6" />
           <span className="text-sm font-medium text-black">HRMS</span>
         </div>

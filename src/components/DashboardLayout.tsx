@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import { 
   LayoutGrid, Rocket, FileText, BarChart2, Activity, 
   Eye, Shield, Globe, Link as LinkIcon, Blocks, Database, 
@@ -14,37 +15,35 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
-import DeploymentsTable from "@/components/DeploymentsTable";
-
 import Logo from "@/assets/logo.svg?react";
 
 const sidebarItems = [
-  { name: "Projects", icon: LayoutGrid },
-  { name: "Deployments", icon: Rocket, isActive: true },
-  { name: "Logs", icon: FileText },
-  { name: "Analytics", icon: BarChart2 },
-  { name: "Speed Insights", icon: Activity },
-  { name: "Observability", icon: Eye, hasArrow: true, children: [
+  { name: "Projects", path: "/projects", icon: LayoutGrid },
+  { name: "Deployments", path: "/deployments", icon: Rocket },
+  { name: "Logs", path: "/logs", icon: FileText },
+  { name: "Analytics", path: "/analytics", icon: BarChart2 },
+  { name: "Speed Insights", path: "/speed-insights", icon: Activity },
+  { name: "Observability", path: "/observability", icon: Eye, hasArrow: true, children: [
     { name: "Metrics" },
     { name: "Traces" },
     { name: "Errors" },
   ]},
-  { name: "Firewall", icon: Shield },
-  { name: "CDN", icon: Globe },
-  { name: "Domains", icon: LinkIcon },
-  { name: "Integrations", icon: Blocks },
-  { name: "Storage", icon: Database },
-  { name: "Flags", icon: Flag },
-  { name: "Agent", icon: Cpu, hasArrow: true, children: [
+  { name: "Firewall", path: "/firewall", icon: Shield },
+  { name: "CDN", path: "/cdn", icon: Globe },
+  { name: "Domains", path: "/domains", icon: LinkIcon },
+  { name: "Integrations", path: "/integrations", icon: Blocks },
+  { name: "Storage", path: "/storage", icon: Database },
+  { name: "Flags", path: "/flags", icon: Flag },
+  { name: "Agent", path: "/agent", icon: Cpu, hasArrow: true, children: [
     { name: "Configuration" },
     { name: "Status" },
   ]},
-  { name: "AI Gateway", icon: Sparkles, hasArrow: true, children: [
+  { name: "AI Gateway", path: "/ai-gateway", icon: Sparkles, hasArrow: true, children: [
     { name: "API Keys" },
     { name: "Rate Limits" },
   ]},
-  { name: "Sandboxes", icon: Box },
-  { name: "Usage", icon: PieChart, hasArrow: true, children: [
+  { name: "Sandboxes", path: "/sandboxes", icon: Box },
+  { name: "Usage", path: "/usage", icon: PieChart, hasArrow: true, children: [
     { name: "Last 30 days" },
     { name: "Image Optimization", category: true },
     { name: "Transformations", subIndent: true },
@@ -57,13 +56,16 @@ const sidebarItems = [
     { name: "Edge Request CPU Duration" },
     { name: "Microfrontends Routing" },
   ]},
-  { name: "Support", icon: HelpCircle },
-  { name: "Settings", icon: Settings },
+  { name: "Support", path: "/support", icon: HelpCircle },
+  { name: "Settings", path: "/settings", icon: Settings },
 ];
 
 const SidebarContent = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [openItems, setOpenItems] = useState<Record<string, boolean>>({});
+  
+  const location = useLocation(); 
+  const navigate = useNavigate();
 
   const toggleItem = (name: string) => {
     setOpenItems((prev) => ({ ...prev, [name]: !prev[name] }));
@@ -87,8 +89,6 @@ const SidebarContent = () => {
 
   return (
     <div className="flex h-[100dvh] md:h-full flex-col bg-[#F9F9F9] text-sm overflow-hidden border-r border-gray-200">
-      
-      {/* Header */}
       <div className="h-14 flex items-center px-4 shrink-0">
         <div className="flex items-center gap-2 text-black cursor-pointer">
           <Logo className="h-5 w-5" />
@@ -118,6 +118,7 @@ const SidebarContent = () => {
               const Icon = item.icon;
               const hasChildren = item.children && item.children.length > 0;
               const isOpen = openItems[item.name];
+              const isActive = location.pathname.includes(item.path || "");
 
               if (hasChildren) {
                 return (
@@ -150,9 +151,14 @@ const SidebarContent = () => {
               }
 
               return (
-                <Button key={item.name} variant="ghost" className={`w-full justify-between px-2 py-1.5 h-auto font-normal transition-colors ${item.isActive ? "bg-[#EAEAEA] text-black font-medium hover:bg-[#EAEAEA]" : "text-gray-600 hover:bg-gray-200/50 hover:text-gray-900"}`}>
+                <Button 
+                  key={item.name} 
+                  variant="ghost" 
+                  onClick={() => item.path && navigate(item.path)} 
+                  className={`w-full justify-between px-2 py-1.5 h-auto font-normal transition-colors ${isActive ? "bg-[#EAEAEA] text-black font-medium hover:bg-[#EAEAEA]" : "text-gray-600 hover:bg-gray-200/50 hover:text-gray-900"}`}
+                >
                   <div className="flex items-center gap-2.5">
-                    <Icon size={16} strokeWidth={item.isActive ? 2.5 : 2} className={item.isActive ? "text-black" : "text-gray-500"} />
+                    <Icon size={16} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-black" : "text-gray-500"} />
                     <span className="text-[13px]">{item.name}</span>
                   </div>
                 </Button>
@@ -162,13 +168,12 @@ const SidebarContent = () => {
         </ScrollArea>
       </div>
 
-            {/* Footer */}
       <div className="mt-auto flex flex-col shrink-0">
         <Separator />
-        <div className="p-3">
-          <Button variant="ghost" className="w-full justify-between px-2 py-1.5 h-auto hover:bg-gray-200/50">
-            <div className="flex items-center gap-2.5">
-              <Avatar className="h-6 w-6">
+        <div className="p-2">
+          <Button variant="ghost" className="w-full justify-between px-2 h-9 hover:bg-gray-200/50">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-5 w-5">
                 <AvatarFallback className="bg-blue-600 text-white text-[10px] font-bold">U</AvatarFallback>
               </Avatar>
               <span className="text-[13px] font-medium text-gray-700">User</span>
@@ -181,17 +186,15 @@ const SidebarContent = () => {
   );
 };
 
-export default function SidebarDashboard() {
+export default function DashboardLayout() { 
   return (
-    <div className="flex h-[100dvh] w-full flex-col md:flex-row bg-[#FAFAFA] overflow-hidden">
+    <div className="flex h-[100dvh] w-full flex-col md:flex-row bg-white overflow-hidden">
       
-      {/* Mobile Header */}
       <div className="flex md:hidden h-14 items-center justify-between border-b border-gray-200 bg-[#F9F9F9] px-4 shrink-0">
         <div className="flex items-center gap-2 text-black">
           <Logo className="h-5 w-5" />
           <span className="font-semibold text-[14px]">APTO Solution</span>
         </div>
-        
         <Sheet>
           <SheetTrigger className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-200 transition-colors">
             <Menu className="h-5 w-5 text-gray-800" />
@@ -202,15 +205,13 @@ export default function SidebarDashboard() {
         </Sheet>
       </div>
 
-      {/* Desktop Sidebar */}
-      <aside className="hidden md:flex w-[240px] flex-col bg-[#F9F9F9] border-r border-gray-200 text-sm h-full shrink-0">
+      <aside className="hidden md:flex w-[240px] flex-col bg-[#F9F9F9] border-r border-gray-200 text-sm h-full shrink-0 z-50">
         <SidebarContent />
       </aside>
 
-      <main className="flex-1 bg-white h-full overflow-y-auto p-4 md:p-8 lg:p-12">
-        <div className="max-w-6xl mx-auto">
-          <DeploymentsTable />
-        </div>
+
+      <main className="flex-1 bg-white h-full overflow-y-auto relative">
+        <Outlet /> 
       </main>
       
     </div>

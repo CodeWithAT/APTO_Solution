@@ -1,8 +1,18 @@
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+ 
+  const handleLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+   
+    navigate("/deployments"); 
+  };
+
   return (
     <div className="flex min-h-screen w-full bg-white">
       
@@ -44,7 +54,10 @@ export default function Login() {
             </div>
           </div>
 
-          <Button className="h-10 w-full bg-[#E5E5E5] text-gray-800 hover:bg-[#D4D4D4] font-bold shadow-none">
+          <Button 
+            onClick={handleLogin} 
+            className="h-10 w-full bg-[#E5E5E5] text-gray-800 hover:bg-[#D4D4D4] font-bold shadow-none"
+          >
             Submit
           </Button>
           
