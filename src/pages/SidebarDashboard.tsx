@@ -14,6 +14,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
+
+import Logo from "@/assets/logo.svg?react";
+
 const sidebarItems = [
   { name: "Projects", icon: LayoutGrid, isActive: true },
   { name: "Deployments", icon: Rocket },
@@ -87,14 +90,12 @@ const SidebarContent = () => {
       {/* Header */}
       <div className="h-14 flex items-center px-4 shrink-0">
         <div className="flex items-center gap-2 text-black cursor-pointer">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 22H22L12 2Z" fill="#EAB308" />
-          </svg>
+          
+          <Logo className="h-5 w-5" />
           <span className="font-semibold text-[14px]">APTO Solutions</span>
         </div>
       </div>
 
-      
       <div className="px-3 pb-2 pt-1 shrink-0">
         <div className="relative flex items-center bg-white border border-gray-200 rounded-md px-2 focus-within:border-gray-400 focus-within:ring-1 focus-within:ring-gray-400 transition-all h-8">
           <Search size={14} className="text-gray-400 shrink-0" />
@@ -110,7 +111,6 @@ const SidebarContent = () => {
         </div>
       </div>
 
-    
       <div className="flex-1 min-h-0 overflow-hidden">
         <ScrollArea className="h-full w-full">
           <nav className="flex flex-col gap-0.5 p-2 pb-6">
@@ -217,9 +217,8 @@ export default function SidebarDashboard() {
       {/* Mobile */}
       <div className="flex md:hidden h-14 items-center justify-between border-b border-gray-200 bg-[#F9F9F9] px-4 shrink-0">
         <div className="flex items-center gap-2 text-black">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 22H22L12 2Z" fill="#EAB308" />
-          </svg>
+          
+          <Logo className="h-5 w-5" />
           <span className="font-semibold text-[14px]">APTO Solutions</span>
         </div>
         
