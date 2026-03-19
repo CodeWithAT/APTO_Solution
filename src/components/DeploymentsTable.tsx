@@ -179,11 +179,23 @@ export default function DeploymentsTable() {
   const [globalFilter, setGlobalFilter] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
 
+  // useEffect(() => {
+  //   fetch("http://localhost:3000/deployments")
+  //     .then((res) => res.json())
+  //     .then((fetchedData) => {
+  //       setData(fetchedData)
+  //       setLoading(false)
+  //     })
+  //     .catch((err) => {
+  //       console.error("Failed to fetch deployments:", err)
+  //       setLoading(false)
+  //     })
+  // }, [])
   useEffect(() => {
-    fetch("http://localhost:3000/deployments")
+    fetch("/db.json") 
       .then((res) => res.json())
       .then((fetchedData) => {
-        setData(fetchedData)
+        setData(fetchedData.deployments)
         setLoading(false)
       })
       .catch((err) => {
