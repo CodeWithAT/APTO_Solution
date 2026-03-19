@@ -179,20 +179,9 @@ export default function DeploymentsTable() {
   const [globalFilter, setGlobalFilter] = useState("")
   const [sorting, setSorting] = useState<SortingState>([])
 
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/deployments")
-  //     .then((res) => res.json())
-  //     .then((fetchedData) => {
-  //       setData(fetchedData)
-  //       setLoading(false)
-  //     })
-  //     .catch((err) => {
-  //       console.error("Failed to fetch deployments:", err)
-  //       setLoading(false)
-  //     })
-  // }, [])
   useEffect(() => {
-    fetch("/db.json") 
+    // FIX: Serving data locally for flawless Vercel performance
+    fetch("/db.json")
       .then((res) => res.json())
       .then((fetchedData) => {
         setData(fetchedData.deployments)
@@ -225,50 +214,52 @@ export default function DeploymentsTable() {
   })
 
   return (
-    <div className="flex flex-col h-full w-full">
-
-      <div className="shrink-0 bg-white px-6 lg:px-10 h-15 border-b border-gray-200 flex flex-col xl:flex-row xl:items-center justify-between gap-4 w-full z-10">
-        <h2 className="text-[28px] font-semibold tracking-tight text-gray-900 shrink-0">Deployments</h2>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto min-w-0">
-          <div className="relative w-full sm:flex-1 xl:w-80 shrink">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-400" />
+    <div className="flex flex-col h-full w-full bg-white absolute inset-0">
+      
+      {/* 1. COMPACT, MOBILE-FRIENDLY SINGLE ROW HEADER (MATCHES YELLOW MARKS) */}
+      <div className="shrink-0 bg-white px-4 lg:px-10 pt-4 pb-2 border-b border-gray-100 flex flex-row items-center justify-between gap-3 w-full z-20 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+        
+        {/* Left Section (Logo + Burger is already there) */}
+        <h2 className="text-[20px] font-semibold tracking-tight text-gray-900 shrink-0">Deployments</h2>
+        
+        {/* Right Section (Find Input + New Button) - Perfectly Aligned */}
+        <div className="flex flex-row items-center gap-2 flex-1 justify-end min-w-0">
+          <div className="relative flex-1 max-w-[160px]">
+            <Search className="absolute left-2 top-2.5 h-3.5 w-3.5 text-gray-400" />
             <Input
-              placeholder="Filter list..."
+              placeholder="Find..."
               value={globalFilter ?? ""}
               onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-9 h-9 w-full text-[13px] bg-white border-gray-200 shadow-sm focus-visible:ring-1"
+              className="pl-7 h-8 w-full text-[11px] bg-white border-gray-200 shadow-sm focus-visible:ring-1"
             />
           </div>
-          <Button className="bg-black text-white hover:bg-black/90 h-9 px-4 rounded-md w-full sm:w-auto text-[13px] whitespace-nowrap shrink-0">
-            New Deployment
+          <Button className="bg-black text-white hover:bg-black/90 h-8 px-2 rounded-md text-[11px] whitespace-nowrap shrink-0">
+            New
           </Button>
         </div>
       </div>
       
-    
-      <div className="flex-1 flex flex-col min-h-0 px-6 lg:px-10 py-6 overflow-hidden">
-        <div className="w-full max-w-[1600px] mx-auto h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-          
+      {/* 2. MIDDLE AREA (Scrollable Middle) */}
+      <div className="flex-1 flex flex-col overflow-hidden px-4 lg:px-10 py-6 bg-gray-50/30">
+        <div className="w-full h-full max-w-[1600px] mx-auto flex flex-col min-h-0">
           {loading ? (
-            <div className="flex flex-col items-center justify-center h-full w-full gap-3">
+            <div className="flex flex-col items-center justify-center h-full w-full border border-gray-200 rounded-lg bg-white shadow-sm gap-3">
               <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
               <span className="text-[13px] text-gray-500 font-medium">Loading deployments...</span>
             </div>
           ) : (
             <>
-              
-              <div className="hidden xl:flex flex-col flex-1 w-full overflow-hidden">
+              {/* DESKTOP VIEW - Trapped Scrollbar */}
+              <div className="hidden xl:flex flex-col flex-1 w-full rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden relative">
                 <div className="flex-1 overflow-auto">
-                  
-                  
-                  <table className="w-full text-sm text-left whitespace-nowrap">
+                  <table className="min-w-[800px] w-full relative">
                     
-                   
-                    <TableHeader className="sticky top-0 z-20 bg-gray-50 shadow-[0_1px_0_0_#e5e7eb]">
+                    {/* TABLE HEADER - Sticky Header */}
+                    <TableHeader className="sticky top-0 z-20 bg-gray-50 ring-1 ring-gray-200 shadow-sm backdrop-blur-sm">
                       {table.getHeaderGroups().map((headerGroup) => (
                         <TableRow key={headerGroup.id} className="bg-gray-50 hover:bg-gray-50 border-none">
                           {headerGroup.headers.map((header) => (
-                            <TableHead key={header.id} className="h-10 px-4 align-middle bg-gray-50">
+                            <TableHead key={header.id} className="h-10 px-4 align-middle font-semibold bg-gray-50">
                               {flexRender(header.column.columnDef.header, header.getContext())}
                             </TableHead>
                           ))}
@@ -276,7 +267,7 @@ export default function DeploymentsTable() {
                       ))}
                     </TableHeader>
 
-                    
+                    {/* TABLE BODY */}
                     <TableBody>
                       {table.getRowModel().rows.map((row) => (
                         <TableRow key={row.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition-colors">
@@ -299,8 +290,8 @@ export default function DeploymentsTable() {
                 </div>
               </div>
 
-              {/*  Mobile-Tablet */}
-              <div className="xl:hidden flex-1 overflow-auto grid grid-cols-1 gap-4 w-full content-start pr-1 p-4">
+              {/* MOBILE & TABLET VIEW - Internal Scrollbar */}
+              <div className="xl:hidden flex-1 overflow-auto grid grid-cols-1 gap-4 w-full content-start pr-1">
                 {table.getRowModel().rows.map((row) => {
                   const d = row.original;
                   const actionsCell = row.getVisibleCells().find(c => c.column.id === 'actions');
@@ -357,8 +348,8 @@ export default function DeploymentsTable() {
         </div>
       </div>
 
-      {/*   Pagination */}
-      <div className="shrink-0 h-13 border-t border-gray-200 bg-white px-6 lg:px-10 flex items-center justify-between w-full z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      {/* 3. FOOTER PAGINATION (Matches Sidebar height) */}
+      <div className="shrink-0 h-16 border-t border-gray-200 bg-white px-6 lg:px-10 flex items-center justify-between w-full z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         
         <div className="text-[13px] text-gray-500 font-medium">
           Showing <span className="text-gray-900 font-semibold">
