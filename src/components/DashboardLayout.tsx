@@ -9,7 +9,6 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
@@ -168,19 +167,16 @@ const SidebarContent = () => {
         </ScrollArea>
       </div>
 
-      <div className="mt-auto flex flex-col shrink-0">
-        <Separator />
-        <div className="p-2">
-          <Button variant="ghost" className="w-full justify-between px-2 h-9 hover:bg-gray-200/50">
-            <div className="flex items-center gap-2">
-              <Avatar className="h-5 w-5">
-                <AvatarFallback className="bg-blue-600 text-white text-[10px] font-bold">U</AvatarFallback>
-              </Avatar>
-              <span className="text-[13px] font-medium text-gray-700">User</span>
-            </div>
-            <ChevronsUpDown size={14} className="text-gray-400" />
-          </Button>
-        </div>
+      <div className="mt-auto flex flex-col shrink-0 h-16 border-t border-gray-200 bg-[#F9F9F9] justify-center px-4">
+        <Button variant="ghost" className="w-full justify-between px-2 h-10 hover:bg-gray-200/50">
+          <div className="flex items-center gap-2">
+            <Avatar className="h-6 w-6">
+              <AvatarFallback className="bg-blue-600 text-white text-[10px] font-bold">U</AvatarFallback>
+            </Avatar>
+            <span className="text-[13px] font-medium text-gray-700">User</span>
+          </div>
+          <ChevronsUpDown size={14} className="text-gray-400" />
+        </Button>
       </div>
     </div>
   );
@@ -199,7 +195,11 @@ export default function DashboardLayout() {
           <SheetTrigger className="flex h-8 w-8 items-center justify-center rounded-md hover:bg-gray-200 transition-colors">
             <Menu className="h-5 w-5 text-gray-800" />
           </SheetTrigger>
-          <SheetContent side="left" className="w-[240px] p-0 border-none [&>button]:hidden">
+          <SheetContent 
+            side="left" 
+            className="w-[240px] p-0 border-none [&>button]:hidden"
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
             <SidebarContent />
           </SheetContent>
         </Sheet>
@@ -209,8 +209,7 @@ export default function DashboardLayout() {
         <SidebarContent />
       </aside>
 
-     
-      <main className="flex-1 bg-white h-full overflow-hidden flex flex-col relative">
+      <main className="flex-1 bg-[#FAFAFA] h-full overflow-hidden flex flex-col relative">
         <Outlet /> 
       </main>
       
