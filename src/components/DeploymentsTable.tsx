@@ -15,7 +15,6 @@ import {
 } from "lucide-react"
 
 import {
-  Table,
   TableBody,
   TableCell,
   TableHead,
@@ -214,10 +213,9 @@ export default function DeploymentsTable() {
   })
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
-      
+    <div className="flex flex-col h-full w-full">
 
-      <div className="sticky top-0 z-40 bg-white px-6 lg:px-10 pt-6 pb-3 border-b border-gray-100 flex flex-col xl:flex-row xl:items-center justify-between gap-4 w-full">
+      <div className="shrink-0 bg-white px-6 lg:px-10 h-15 border-b border-gray-200 flex flex-col xl:flex-row xl:items-center justify-between gap-4 w-full z-10">
         <h2 className="text-[28px] font-semibold tracking-tight text-gray-900 shrink-0">Deployments</h2>
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full xl:w-auto min-w-0">
           <div className="relative w-full sm:flex-1 xl:w-80 shrink">
@@ -235,139 +233,159 @@ export default function DeploymentsTable() {
         </div>
       </div>
       
-      {/*  Table  */}
-      <div className="px-6 lg:px-10 py-6 w-full max-w-[1600px] mx-auto">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center h-64 w-full border border-gray-200 rounded-lg bg-white shadow-sm gap-3">
-            <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
-            <span className="text-[13px] text-gray-500 font-medium">Loading deployments...</span>
-          </div>
-        ) : (
-          <>
-            {/* Desktop */}
-            <div className="hidden xl:block w-full rounded-lg border border-gray-200 bg-white shadow-sm overflow-x-auto min-w-0">
-              <Table className="min-w-[800px] w-full">
-                <TableHeader>
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} className="bg-gray-50/50 hover:bg-transparent border-b border-gray-200">
-                      {headerGroup.headers.map((header) => (
-                        <TableHead key={header.id} className="h-10 px-4 align-middle">
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                        </TableHead>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableHeader>
-                <TableBody>
-                  {table.getRowModel().rows.map((row) => (
-                    <TableRow key={row.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50/20 transition-colors">
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id} className="py-4 px-4 align-top">
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                  {table.getRowModel().rows.length === 0 && (
-                    <TableRow>
-                      <TableCell colSpan={columns.length} className="h-32 text-center text-[13px] text-gray-500">
-                        No deployments found matching "{globalFilter}".
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+    
+      <div className="flex-1 flex flex-col min-h-0 px-6 lg:px-10 py-6 overflow-hidden">
+        <div className="w-full max-w-[1600px] mx-auto h-full flex flex-col bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
+          
+          {loading ? (
+            <div className="flex flex-col items-center justify-center h-full w-full gap-3">
+              <Loader2 className="h-6 w-6 animate-spin text-gray-400" />
+              <span className="text-[13px] text-gray-500 font-medium">Loading deployments...</span>
             </div>
+          ) : (
+            <>
+              
+              <div className="hidden xl:flex flex-col flex-1 w-full overflow-hidden">
+                <div className="flex-1 overflow-auto">
+                  
+                  
+                  <table className="w-full text-sm text-left whitespace-nowrap">
+                    
+                   
+                    <TableHeader className="sticky top-0 z-20 bg-gray-50 shadow-[0_1px_0_0_#e5e7eb]">
+                      {table.getHeaderGroups().map((headerGroup) => (
+                        <TableRow key={headerGroup.id} className="bg-gray-50 hover:bg-gray-50 border-none">
+                          {headerGroup.headers.map((header) => (
+                            <TableHead key={header.id} className="h-10 px-4 align-middle bg-gray-50">
+                              {flexRender(header.column.columnDef.header, header.getContext())}
+                            </TableHead>
+                          ))}
+                        </TableRow>
+                      ))}
+                    </TableHeader>
 
-            {/* Mobile-Tablet */}
-            <div className="grid grid-cols-1 gap-4 xl:hidden w-full min-w-0">
-              {table.getRowModel().rows.map((row) => {
-                const d = row.original;
-                const actionsCell = row.getVisibleCells().find(c => c.column.id === 'actions');
-                
-                return (
-                  <div key={row.id} className="flex flex-col p-4 bg-white border border-gray-200 rounded-xl shadow-sm gap-3 w-full">
-                    <div className="flex justify-between items-start gap-4">
-                      <div className="flex flex-col gap-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="font-semibold text-[15px] text-gray-900 truncate">{d.project}</span>
-                          <Badge variant="outline" className={`text-[10px] h-4 px-1.5 rounded-full shrink-0 ${d.environment === 'Production' ? 'bg-black text-white border-black shadow-none' : 'bg-gray-100 text-gray-600 border-gray-200 shadow-none'}`}>
-                            {d.environment}
-                          </Badge>
-                        </div>
-                        <div className="flex items-center gap-1 text-[12px] text-gray-500 truncate">
-                          <span className="truncate">{d.domain}</span> <ExternalLink size={10} className="shrink-0" />
-                        </div>
-                      </div>
-                      <div className="shrink-0">
-                        {actionsCell && flexRender(actionsCell.column.columnDef.cell, actionsCell.getContext())}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 mt-1">
-                      <div className="flex items-center gap-2 text-[13px] text-gray-700">
-                        <StatusDot status={d.status} />
-                        <span className="font-medium">{d.status}</span>
-                      </div>
-                      
-                      <div className="bg-gray-50 border border-gray-100 rounded-md p-3 flex flex-col gap-2 mt-1 min-w-0">
-                        <div className="flex items-start gap-1.5 text-[13px] text-gray-800 italic overflow-hidden">
-                          <Github size={14} className="mt-0.5 text-gray-400 shrink-0" />
-                          <span className="break-words line-clamp-2">"{d.commitMessage}"</span>
-                        </div>
-                        <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-1 flex-wrap">
-                          <span className="bg-white border border-gray-200 px-1.5 py-0.5 rounded flex items-center gap-1 font-mono">
-                            <GitBranch size={10}/>{d.branch}
-                          </span>
-                          <span className="font-mono">{d.commitHash}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between items-center text-[12px] text-gray-500 mt-1 pt-3 border-t border-gray-100">
-                      <span>Created by {d.author}</span>
-                      <span className="font-medium">{d.age} ago</span>
-                    </div>
-                  </div>
-                )
-              })}
-
-              {table.getRowModel().rows.length === 0 && (
-                <div className="h-32 flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-[13px] text-gray-500 w-full">
-                  No deployments found matching "{globalFilter}".
+                    
+                    <TableBody>
+                      {table.getRowModel().rows.map((row) => (
+                        <TableRow key={row.id} className="border-b border-gray-100 last:border-0 hover:bg-gray-50/50 transition-colors">
+                          {row.getVisibleCells().map((cell) => (
+                            <TableCell key={cell.id} className="py-4 px-4 align-top">
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      ))}
+                      {table.getRowModel().rows.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={columns.length} className="h-32 text-center text-[13px] text-gray-500">
+                            No deployments found matching "{globalFilter}".
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </TableBody>
+                  </table>
                 </div>
-              )}
-            </div>
+              </div>
 
-            {/* Pagination */}
-            <div className="flex items-center justify-between px-1 mt-4 pb-10">
-              <div className="text-[13px] text-gray-500 font-medium">
-                Showing <span className="text-gray-900 font-semibold">{table.getRowModel().rows.length}</span> of <span className="text-gray-900 font-semibold">{table.getFilteredRowModel().rows.length}</span> results
+              {/*  Mobile-Tablet */}
+              <div className="xl:hidden flex-1 overflow-auto grid grid-cols-1 gap-4 w-full content-start pr-1 p-4">
+                {table.getRowModel().rows.map((row) => {
+                  const d = row.original;
+                  const actionsCell = row.getVisibleCells().find(c => c.column.id === 'actions');
+                  
+                  return (
+                    <div key={row.id} className="flex flex-col p-4 bg-white border border-gray-200 rounded-xl shadow-sm gap-3 w-full">
+                      <div className="flex justify-between items-start gap-4">
+                        <div className="flex flex-col gap-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="font-semibold text-[15px] text-gray-900 truncate">{d.project}</span>
+                            <Badge variant="outline" className={`text-[10px] h-4 px-1.5 rounded-full shrink-0 ${d.environment === 'Production' ? 'bg-black text-white border-black shadow-none' : 'bg-gray-100 text-gray-600 border-gray-200 shadow-none'}`}>
+                              {d.environment}
+                            </Badge>
+                          </div>
+                          <div className="flex items-center gap-1 text-[12px] text-gray-500 truncate">
+                            <span className="truncate">{d.domain}</span> <ExternalLink size={10} className="shrink-0" />
+                          </div>
+                        </div>
+                        <div className="shrink-0">
+                          {actionsCell && flexRender(actionsCell.column.columnDef.cell, actionsCell.getContext())}
+                        </div>
+                      </div>
+
+                      <div className="flex flex-col gap-2 mt-1">
+                        <div className="flex items-center gap-2 text-[13px] text-gray-700">
+                          <StatusDot status={d.status} />
+                          <span className="font-medium">{d.status}</span>
+                        </div>
+                        
+                        <div className="bg-gray-50 border border-gray-100 rounded-md p-3 flex flex-col gap-2 mt-1 min-w-0">
+                          <div className="flex items-start gap-1.5 text-[13px] text-gray-800 italic overflow-hidden">
+                            <Github size={14} className="mt-0.5 text-gray-400 shrink-0" />
+                            <span className="break-words line-clamp-2">"{d.commitMessage}"</span>
+                          </div>
+                          <div className="flex items-center gap-2 text-[11px] text-gray-500 mt-1 flex-wrap">
+                            <span className="bg-white border border-gray-200 px-1.5 py-0.5 rounded flex items-center gap-1 font-mono">
+                              <GitBranch size={10}/>{d.branch}
+                            </span>
+                            <span className="font-mono">{d.commitHash}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="flex justify-between items-center text-[12px] text-gray-500 mt-1 pt-3 border-t border-gray-100">
+                        <span>Created by {d.author}</span>
+                        <span className="font-medium">{d.age} ago</span>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-8 text-[12px] bg-white border-gray-200"
-                  onClick={() => table.previousPage()}
-                  disabled={!table.getCanPreviousPage()}
-                >
-                  Previous
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="h-8 text-[12px] bg-white border-gray-200"
-                  onClick={() => table.nextPage()}
-                  disabled={!table.getCanNextPage()}
-                >
-                  Next
-                </Button>
-              </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
+
+      {/*   Pagination */}
+      <div className="shrink-0 h-13 border-t border-gray-200 bg-white px-6 lg:px-10 flex items-center justify-between w-full z-10 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+        
+        <div className="text-[13px] text-gray-500 font-medium">
+          Showing <span className="text-gray-900 font-semibold">
+            {table.getFilteredRowModel().rows.length === 0 
+              ? 0 
+              : table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+          </span> to <span className="text-gray-900 font-semibold">
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize, 
+              table.getFilteredRowModel().rows.length
+            )}
+          </span> of <span className="text-gray-900 font-semibold">
+            {table.getFilteredRowModel().rows.length}
+          </span> results
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 text-[12px] bg-white border-gray-200 shadow-sm hover:bg-gray-50 hover:text-gray-900 transition-all"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-8 text-[12px] bg-white border-gray-200 shadow-sm hover:bg-gray-50 hover:text-gray-900 transition-all"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+
+      </div>
+
     </div>
   )
 }

@@ -209,8 +209,8 @@ export default function DashboardLayout() {
         <SidebarContent />
       </aside>
 
-
-      <main className="flex-1 bg-white h-full overflow-y-auto relative">
+     
+      <main className="flex-1 bg-white h-full overflow-hidden flex flex-col relative">
         <Outlet /> 
       </main>
       
