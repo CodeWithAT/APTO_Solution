@@ -4,8 +4,9 @@ import Login from "./pages/Login";
 import HrmsDashboard from "./pages/HrmsDashboard";      
 import DashboardLayout from "./components/DashboardLayout"; 
 import DeploymentsTable from "./components/DeploymentsTable"; 
+// import EmployeesTable from "./components/EmployeesTable";
 
-
+// Generic placeholder for unbuilt sidebar routes
 const PlaceholderPage = () => {
   const { pageId } = useParams();
   return (
@@ -26,22 +27,23 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-     
+        {/* Authentication */}
         <Route path="/login" element={<Login />} />
 
-     
+        {/* Legacy Module */}
         <Route path="/hrms" element={<HrmsDashboard />} />
 
-        
+        {/* Main Application Layout */}
         <Route path="/" element={<DashboardLayout />}>
           <Route index element={<Navigate to="/deployments" replace />} />
           <Route path="deployments" element={<DeploymentsTable />} />
+          {/* <Route path="employees" element={<EmployeesTable />} /> */}
           
-         
+          {/* Dynamic Route to handle other sidebar items gracefully */}
           <Route path=":pageId" element={<PlaceholderPage />} />
         </Route>
 
-       
+        {/* Wildcard Fallback */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
